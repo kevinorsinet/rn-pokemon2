@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, FlatList,  Text, View, SafeAreaView } from 'react-native';
 import Header from './src/components/Header';
 
 export default function App() {
@@ -20,12 +20,17 @@ export default function App() {
     })
   }, [])
   // console.log("pokemons", pokemons);
-  
+
   return (
     <SafeAreaView style={{marginTop: 30}}>
       <Header />
       <View>      
-        <Text>Liste des Pokémons</Text>
+        <FlatList 
+          data={pokemons}
+          keyExtractor={(pokemon) => pokemon.name}
+          renderItem={({item}) => <Text> {item.name}</Text>}
+          style={{ backgroundColor: 'aliceblue'}}
+        />
       </View>
 
     </SafeAreaView>
