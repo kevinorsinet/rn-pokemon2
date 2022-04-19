@@ -9,7 +9,7 @@ export default function App() {
   const [pokemons, setPokemons] = useState([])
 
   useEffect(() => {
-    fetch('https://pokeapi.co/api/v2/pokemon/?limit=10',{
+    fetch('https://pokeapi.co/api/v2/pokemon/?limit=12',{
       method: 'GET',
       headers :{
         'Accept': 'application/json'
@@ -29,6 +29,7 @@ export default function App() {
         <FlatList 
           data={pokemons}
           keyExtractor={(pokemon) => pokemon.name}
+          numColumns={3}
           // renderItem={({item}) => <Text> {item.name}</Text>}
           renderItem={EnvoiPokemon}
           style={{ backgroundColor: 'aliceblue'}}
@@ -38,9 +39,9 @@ export default function App() {
     </SafeAreaView>
 
   );
-  function EnvoiPokemon(pokemon) {
+  function EnvoiPokemon(toto) {
     return (
-      <Pokemons data={pokemon}/>
+      <Pokemons data={toto}/>
     )
   }
 }

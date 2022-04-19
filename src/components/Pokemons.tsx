@@ -3,11 +3,11 @@ import { Modal, View, Image, Text, TouchableOpacity, StyleSheet } from 'react-na
 
 export default function Pokemons(props) {
 	const {name, url} = props.data.item;
+	const pokemonNumber = url.replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
 	return (
 		<View style={styles.mainContainer}>
-		  {/* <Image style={styles.mainImage} */}
-		  {/* // source={{ uri: ??? }} /> */}
-			<Text style={styles.mainText}> {name} </Text>
+		  <Image style={styles.mainImage} source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonNumber}.png` }} /> 
+			<Text style={styles.mainText}> {pokemonNumber} {name} </Text>
 		</View>
 	)
 }
