@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, FlatList,  Text, View, SafeAreaView } from 'react-native';
 import Header from './src/components/Header';
+import Pokemons from './src/components/Pokemons';
 
 export default function App() {
 
@@ -28,7 +29,8 @@ export default function App() {
         <FlatList 
           data={pokemons}
           keyExtractor={(pokemon) => pokemon.name}
-          renderItem={({item}) => <Text> {item.name}</Text>}
+          // renderItem={({item}) => <Text> {item.name}</Text>}
+          renderItem={EnvoiPokemon}
           style={{ backgroundColor: 'aliceblue'}}
         />
       </View>
@@ -36,6 +38,11 @@ export default function App() {
     </SafeAreaView>
 
   );
+  function EnvoiPokemon(pokemon) {
+    return (
+      <Pokemons data={pokemon}/>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
