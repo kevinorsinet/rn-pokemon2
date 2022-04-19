@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import * as Progress from 'react-native-progress';
 
 export default function Pokemons(props) {
 	const {name, url} = props.data.item;
@@ -7,6 +8,7 @@ export default function Pokemons(props) {
 	const pokemonNumber = url.replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '');
 	const [allSpecs, setAllSpecs] = useState();
 	const [pokemonStats, setPokemonStats] = useState([]);
+  const [hp, setHP] = useState([]);
 
 	// Mets à jour le statut du modal
 	const afficherDetail = () => {
@@ -15,7 +17,7 @@ export default function Pokemons(props) {
 
 	// Fetch de l'expérience
 	useEffect(() => {
-    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNumber}`,{
+    fetch(`https://pokeapi.co/api/v2/pokemon/${name}`,{
       method: 'GET',
       headers :{
         'Accept': 'application/json'
@@ -24,10 +26,10 @@ export default function Pokemons(props) {
     .then(response =>response.json()) // Parse le JSON
     .then(data => {
 			setAllSpecs(data.base_experience) 
-			setPokemonStats(data.stats)
+			setHP(data.stats[0].base_stat)
     })
   }, [])
-	console.log("pokemonStats", pokemonStats);
+	// console.log("pokemonStats", pokemonStats[0]);
 
 	return (
 		<View>
@@ -53,6 +55,8 @@ export default function Pokemons(props) {
             source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonNumber}.png` }} />
           <Text style={styles.textNameModal}>{name}</Text>
 					<Text style={styles.textNameModal}>Expérience: {allSpecs}</Text>
+          <Text style={styles.textNameModal}>Point de vie: {hp}</Text>
+          <Progress.Bar progress={hp*0.01} width={200} animated={true} />
 					{/* <Text style={styles.textNameModal}>Stats: {pokemonStats[0].base_stat}</Text> */}
 
         </View>
