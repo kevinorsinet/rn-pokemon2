@@ -3,13 +3,37 @@ import { Modal, View, Image, Text, TouchableOpacity, StyleSheet } from 'react-na
 
 export default function Pokemons(props) {
 	const {name, url} = props.data.item;
+	const [modalVisible, setModalVisible] = useState(false);
 	const pokemonNumber = url.replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
+
+	// Mets à jour le statut du modal
+
+	const afficherDetail = () => {
+		setModalVisible(true); 
+	}
 	return (
-		<View style={styles.mainContainer}>
-		  <Image style={styles.mainImage} source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonNumber}.png` }} /> 
-			<Text style={styles.mainText}> {pokemonNumber} {name} </Text>
+		<View>
+			<TouchableOpacity onPress={afficherDetail}>
+				<View style={styles.mainContainer}>
+					<Image style={styles.mainImage} source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonNumber}.png` }} /> 
+					<Text style={styles.mainText}> {pokemonNumber} {name} </Text>
+				</View>
+			</TouchableOpacity>
+
+			<Modal
+			animationType="slide"
+			transparent={true}
+			visible={modalVisible}
+			>
+				<View>
+					<Text>Hello World!</Text>
+					
+				</View>
+			</Modal>
+
 		</View>
 	)
+
 }
 
 const styles = StyleSheet.create({
