@@ -4,15 +4,16 @@ import { Modal, View, Image, Text, TouchableOpacity, StyleSheet } from 'react-na
 export default function Pokemons(props) {
 	const {name, url} = props.data.item;
 	const [modalVisible, setModalVisible] = useState(false);
-	const pokemonNumber = url.replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
-	const [pokemonSpecs, setPokemonSpecs] = useState([]);
+	const pokemonNumber = url.replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '');
+	const [allSpecs, setAllSpecs] = useState();
+	const [pokemonStats, setPokemonStats] = useState([]);
 
 	// Mets à jour le statut du modal
 	const afficherDetail = () => {
 		setModalVisible(!modalVisible); 
 	}
 
-	// Fetch des specs 
+	// Fetch de l'expérience
 	useEffect(() => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNumber}`,{
       method: 'GET',
@@ -22,10 +23,11 @@ export default function Pokemons(props) {
     })
     .then(response =>response.json()) // Parse le JSON
     .then(data => {
-			setPokemonSpecs(data.stats) 
+			setAllSpecs(data.base_experience) 
+			setPokemonStats(data.stats)
     })
   }, [])
-	// console.log("pokemonSpecs", pokemonSpecs);
+	console.log("pokemonStats", pokemonStats);
 
 	return (
 		<View>
@@ -50,6 +52,9 @@ export default function Pokemons(props) {
           <Image style={styles.imageModal}
             source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonNumber}.png` }} />
           <Text style={styles.textNameModal}>{name}</Text>
+					<Text style={styles.textNameModal}>Expérience: {allSpecs}</Text>
+					{/* <Text style={styles.textNameModal}>Stats: {pokemonStats[0].base_stat}</Text> */}
+
         </View>
 				<TouchableOpacity style={styles.outDetails}
           onPress={afficherDetail}>
