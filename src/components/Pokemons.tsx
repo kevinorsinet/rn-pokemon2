@@ -5,12 +5,28 @@ export default function Pokemons(props) {
 	const {name, url} = props.data.item;
 	const [modalVisible, setModalVisible] = useState(false);
 	const pokemonNumber = url.replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
+	const [pokemonSpecs, setPokemonSpecs] = useState([]);
 
 	// Mets à jour le statut du modal
-
 	const afficherDetail = () => {
-		setModalVisible(true); 
+		setModalVisible(!modalVisible); 
 	}
+
+	// Fetch des specs 
+	useEffect(() => {
+    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNumber}`,{
+      method: 'GET',
+      headers :{
+        'Accept': 'application/json'
+      }
+    })
+    .then(response =>response.json()) // Parse le JSON
+    .then(data => {
+			setPokemonSpecs(data.stats) 
+    })
+  }, [])
+	// console.log("pokemonSpecs", pokemonSpecs);
+
 	return (
 		<View>
 			<TouchableOpacity onPress={afficherDetail}>
@@ -25,10 +41,21 @@ export default function Pokemons(props) {
 			transparent={true}
 			visible={modalVisible}
 			>
-				<View>
-					<Text>Hello World!</Text>
-					
-				</View>
+				<TouchableOpacity style={styles.outDetails}
+          onPress={afficherDetail}>
+          <View>
+          </View>
+        </TouchableOpacity>
+ 				<View style={styles.containerDetailsModal}>
+          <Image style={styles.imageModal}
+            source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonNumber}.png` }} />
+          <Text style={styles.textNameModal}>{name}</Text>
+        </View>
+				<TouchableOpacity style={styles.outDetails}
+          onPress={afficherDetail}>
+          <View>
+          </View>
+        </TouchableOpacity>
 			</Modal>
 
 		</View>
